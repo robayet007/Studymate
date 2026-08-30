@@ -23,13 +23,18 @@ const dummyData = [
     }
 ]
 
-function Topbar(){
+function Topbar({sidebarOpen , setSidebarOpen}){
     return(
         <div className="h-[150px] bg-gray-800 flex relative justify-between">
             {/* left side  */}
             <div>
                 <div className="mt-2 ml-2 cursor-pointer text-white ">
-                <Menu size={30}/>
+                <button 
+                className="max-[1000px]:block hidden"
+                onClick={()=> 
+                setSidebarOpen(!sidebarOpen)}>
+                    <Menu size={30}/>
+                </button>
             </div>
 
             <div className=" mt-4 ml-6">
@@ -43,7 +48,7 @@ function Topbar(){
                     <Bell/>
                   <h1>profile</h1>
                 </div>
-                <div className="flex gap-4">
+                <div className="grid grid-cols-4 max-[1000px]:grid-cols-2 gap-2">
                     {dummyData.map((data) => {
                         return(
                             <div key={data.msg} className="flex items-center mt-5 gap-2 font-mono p-2 text-[#CED1D5] bg-[#0B1723] rounded-2xl">

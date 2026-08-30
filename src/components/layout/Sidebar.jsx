@@ -26,7 +26,7 @@ const listItem = [
 function Sidebar() {
   return (
     <div>
-      <aside className="flex flex-col items-center h-screen">
+      <aside className="flex flex-col  h-screen">
         {/* logo */}
         <Link
           to="/"
@@ -37,7 +37,7 @@ function Sidebar() {
         </Link>
 
         {/* menu list */}
-        <ul className="mt-4 mr-9">
+        <ul className="mt-4 px-4">
           {listItem.map((item) => {
             const Icon = item.icon;
             return (
