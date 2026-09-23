@@ -1,66 +1,27 @@
-import { BrowserRouter , Routes , Route } from "react-router-dom";
-import { useState , useEffect } from "react";
-import Sidebar from "./components/layout/Sidebar";
-import Topbar from "./components/layout/Topbar";
+import { BrowserRouter, Routes, Route } from "react-router-dom";
+import { useEffect, useState } from "react";
 import Dashboard from "./pages/Dashboard";
 import Task from "./pages/Task";
+import "./index.css";
 
+export default function App() {
+  const [sidebarOpen, setSidebarOpen] = useState(true);
 
-function App(){
+  useEffect(() => {
+    const onResize = () => setSidebarOpen(window.innerWidth > 1000);
+    onResize();
+    window.addEventListener("resize", onResize);
+    return () => window.removeEventListener("resize", onResize);
+  }, []);
 
-   const [sidebarOpen , setSidebarOpen] = useState(true)
-
-   useEffect(()=>{
-      const handleResize = () => {
-        if(window.innerWidth <=1000){
-          setSidebarOpen(false)
-        }else{
-          setSidebarOpen(true)
-        }
-      }
-
-      handleResize()
-      window.addEventListener("resize" , handleResize)
-
-      return () => {
-        window.removeEventListener("resize" , handleResize)
-      }
-   },[])
-
-  return(
+  return (
     <BrowserRouter>
-      <div className="h-screen relative flex text-[#ffffff]">
-      {/* sidebar */}
-      <div className={` ${sidebarOpen ? "w-64" : "w-0"} 
-      shrink-0 
-      overflow-hidden 
-      transition-all 
-      duration-300 ease-in-out 
-      bg-gray-800 border-r
-      border-gray-700
-      max-[1000px]:absolute
-      z-10
-       `}>
-        <Sidebar/>
+      <div className="app-shell">
+        <Routes>
+          <Route path="*" element={<Dashboard sidebarOpen={sidebarOpen} setSidebarOpen={setSidebarOpen} />} />
+          <Route path="/tasks" element={<Task />} />
+        </Routes>
       </div>
-
-
-      {/* right side */}
-      <div className="flex-1 flex  flex-col">
-        <Topbar sidebarOpen={sidebarOpen}  setSidebarOpen={setSidebarOpen}/>
-        {/* pages */}
-
-        <main className="bg-gray-800 h-screen pl-2">
-          <Routes>
-              <Route path="/"  element={<Dashboard/>}/>
-              <Route path="/task"  element={<Task/>} />
-          </Routes>
-        </main>
-
-      </div>
-    </div>
     </BrowserRouter>
-  )
+  );
 }
-
-export default App;
